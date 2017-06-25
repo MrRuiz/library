@@ -12,7 +12,7 @@
 				self::$instance = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 				if( self::$instance->connect_error ) {
-					die( "Conexión con base de datos fallida. " . self::$instance->connect_error );
+					die( "Error accessing the database. " . self::$instance->connect_error );
 				}
 			}
 
@@ -22,7 +22,6 @@
 		public static function query($sql) {
 			return self::get_instance()->query($sql);
 		}
-
 	}
 
 ?>

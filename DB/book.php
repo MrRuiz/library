@@ -26,14 +26,23 @@
 		}
 
 		public function get_by_name($name) {
-			$sql = "SELECT * FROM ". $this->table ." WHERE name = " . $name;
+			$sql = "SELECT * FROM ". $this->table ." WHERE `name` = " . $name;
 			return DB::query($sql);
 		}
 
-		public function update($id) {
-			return "LATER";
-		}
+		public function update($values, $id) {
+			$sql = "UPDATE ". $this->table ." SET";
+			$comma = " ";
+			foreach($values as $key => $value) {
+			    if( ! empty($value) ) {
+			        $sql .= $comma . $key . " = '" . trim($value) . "'";
+			        $comma = ", ";
+			    }
+			}
+			$sql = $sql . "WHERE `id` = ". $id;
 
+			return DB::query($sql);
+		}
 
 	}
 
