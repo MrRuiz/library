@@ -2,12 +2,12 @@
     /*
         **  URL                                     HTTP Method                         Operation
         **  ==================================================================================================
-        **  /api/books/                             GET                                 Lists books.
-        **  /api/books/category/:category_id        GET                                 Lists books by category.
-        **  /api/books/:id                          GET                                 Gets book data by id.
-        **  /api/books/:name                        GET                                 Gets book data by name.
-        **  /api/books/:id                          DELETE                              Deletes a book from the Database.
-        **  /api/books/:id                          PUT                                 Updates a book from the Database.
+        **  /API/api/books                              GET                                 Lists books.
+        **  /API/api/books/category/:category_id        GET                                 Lists books by category.
+        **  /API/api/books/:id                          GET                                 Gets book data by id.
+        **  /API/api/books/:name                        GET                                 Gets book data by name.
+        **  /API/api/books/:id                          DELETE                              Deletes a book from the Database.
+        **  /API/api/books/:id                          PUT                                 Updates a book from the Database.
     */
 ?>
 <!DOCTYPE html>
@@ -48,32 +48,32 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>/api/books/</td>
+                        <td>/API/api/books</td>
                         <td>GET</td>
                         <td>Lists books</td>
                     </tr>
                     <tr>
-                        <td>/api/books/category/:category_id</td>
+                        <td>/API/api/books/category/:category_id</td>
                         <td>GET</td>
                         <td>Lists books by category</td>
                     </tr>
                     <tr>
-                        <td>/api/books/:id</td>
+                        <td>/API/api/books/:id</td>
                         <td>GET</td>
                         <td>Gets book data by id</td>
                     </tr>
                     <tr>
-                        <td>/api/books/:name</td>
+                        <td>/API/api/books/:name</td>
                         <td>GET</td>
                         <td>Gets book data by name</td>
                     </tr>
                     <tr>
-                        <td>/api/books/:id</td>
+                        <td>/API/api/books/:id</td>
                         <td>DELETE</td>
                         <td>Deletes a book from the Database</td>
                     </tr>
                     <tr>
-                        <td>/api/books/:id</td>
+                        <td>/API/api/books/:id</td>
                         <td>PUT</td>
                         <td>Updates a book from the Database</td>
                     </tr>
@@ -82,12 +82,12 @@
         </div>
         
         <div class="container">
-            <form action="API/api.php" method="POST">
+            <form method="post">
                 <div class="row">
                     <div class="col-md-8">
                         <label for="url">URL</label>
                         <div class="input-group">
-                            <span class="input-group-addon" id="addon">http://api/books/</span>
+                            <span class="input-group-addon" id="addon">http://library.local/API/api/books</span>
                             <input type="text" id="url" name="url" class="form-control" aria-describedby="basic-addon3">
                         </div>
                     </div>
@@ -96,8 +96,9 @@
                             <label for="method">HTTP METHOD</label>
                             <select id="method" name="method" class="form-control">
                                 <option value="get">GET</option>
-                                <option value="put">PUT</option>
                                 <option value="delete">DELETE</option>
+                                <option value="put">PUT</option>
+                                
                             </select>
                         </div>
                     </div>
@@ -128,11 +129,51 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="submit" value="submit" class="form-control" />
+                        <input type="submit" id="submit" name="submit" value="submit" class="form-control btn btn-primary" />
                     </div>
                 </div>
             </form>
         </div>
+
+        <?php
+            if( isset($_POST["submit"]) ) {
+
+                $api_request_url = "http://library.local/API/api/books";
+                $api_request_url .= $_POST["url"];
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+
+                if ($_POST["method"] == "delete")   {  
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+                }
+                if ($_POST["method"] == "put")      {  
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+
+                    $headers = array(
+                        "name: " . $_POST["name"],
+                        "link: " . $_POST["link"],
+                        "content: " . $_POST["content"]
+                    );
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                }
+
+                curl_setopt($ch, CURLOPT_URL, $api_request_url);
+                $api_response = curl_exec($ch);
+
+                curl_close($ch);
+        ?>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo json_encode($api_response, JSON_PRETTY_PRINT); ?>
+                    </div>
+                </div>
+            </div>
+        <?php
+            }
+        ?>
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

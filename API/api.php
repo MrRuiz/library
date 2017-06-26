@@ -49,21 +49,20 @@
         Response::send(501, [], 'unknown action: ' . $request->get_uri());
     }
 
-    // if ($request->is_method('put')) {
-    //     if ($request->is_action('/api/books/:id')) {
+    if ($request->is_method('put')) {
+        if ($request->is_action('/api/books/:id')) {
+            $values = array(
+                "name"    => $_SERVER['HTTP_NAME'],
+                "link"    => $_SERVER['HTTP_LINK'],
+                "content" => $_SERVER['HTTP_CONTENT']
+            );
+            $book->update($values, $request->get_id());
 
-    //         $values = array(
-    //             "name"    => $request->getData()->name,
-    //             "link"    => $request->getData()->link,
-    //             "content" => $request->getData()->content
-    //         );
-    //         $book->update($values, $request->get_id());
+            Response::send(204, [], '');
+        }
 
-    //         Response::send(204, [], '');
-    //     }
-
-    //     Response::send(501, [], 'unknown action: ' . $request->get_uri());
-    // }
+        Response::send(501, [], 'unknown action: ' . $request->get_uri());
+    }
 
     Response::send(501, [], 'unknown action: ' . $request->get_method());
 ?>
