@@ -63,11 +63,6 @@
                         <td>Gets book data by id</td>
                     </tr>
                     <tr>
-                        <td>http://rafaelawesomecodelibrary.com/API/api/books/:name</td>
-                        <td>GET</td>
-                        <td>Gets book data by name</td>
-                    </tr>
-                    <tr>
                         <td>http://rafaelawesomecodelibrary.com/API/api/books/:id</td>
                         <td>DELETE</td>
                         <td>Deletes a book from the Database</td>
