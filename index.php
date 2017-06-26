@@ -48,32 +48,32 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>/API/api/books</td>
+                        <td>http://rafaelawesomecodelibrary.com/API/api/books</td>
                         <td>GET</td>
                         <td>Lists books</td>
                     </tr>
                     <tr>
-                        <td>/API/api/books/category/:category_id</td>
+                        <td>http://rafaelawesomecodelibrary.com/API/api/books/category/:category_id</td>
                         <td>GET</td>
                         <td>Lists books by category</td>
                     </tr>
                     <tr>
-                        <td>/API/api/books/:id</td>
+                        <td>http://rafaelawesomecodelibrary.com/API/api/books/:id</td>
                         <td>GET</td>
                         <td>Gets book data by id</td>
                     </tr>
                     <tr>
-                        <td>/API/api/books/:name</td>
+                        <td>http://rafaelawesomecodelibrary.com/API/api/books/:name</td>
                         <td>GET</td>
                         <td>Gets book data by name</td>
                     </tr>
                     <tr>
-                        <td>/API/api/books/:id</td>
+                        <td>http://rafaelawesomecodelibrary.com/API/api/books/:id</td>
                         <td>DELETE</td>
                         <td>Deletes a book from the Database</td>
                     </tr>
                     <tr>
-                        <td>/API/api/books/:id</td>
+                        <td>http://rafaelawesomecodelibrary.com/API/api/books/:id</td>
                         <td>PUT</td>
                         <td>Updates a book from the Database</td>
                     </tr>
@@ -87,7 +87,7 @@
                     <div class="col-md-8">
                         <label for="url">URL</label>
                         <div class="input-group">
-                            <span class="input-group-addon" id="addon">http://library.local/API/api/books</span>
+                            <span class="input-group-addon" id="addon">http://rafaelawesomecodelibrary.com/API/api/books</span>
                             <input type="text" id="url" name="url" class="form-control" aria-describedby="basic-addon3">
                         </div>
                     </div>
@@ -138,7 +138,7 @@
         <?php
             if( isset($_POST["submit"]) ) {
 
-                $api_request_url = "http://library.local/API/api/books";
+                $api_request_url = "http://rafaelawesomecodelibrary.com/API/api/books";
                 $api_request_url .= $_POST["url"];
 
                 $ch = curl_init();

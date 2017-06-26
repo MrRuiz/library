@@ -5,7 +5,7 @@
         private $uri;
         private $data;
 
-        public function __construct(array $server) {
+        public function __construct($server) {
             $this->method = $server['REQUEST_METHOD'];
             $this->uri = $server['REQUEST_URI'];
             $this->data = json_decode(file_get_contents('php://input'));
@@ -23,11 +23,11 @@
             return $this->data;
         }
 
-        public function is_method(string $method) {
+        public function is_method($method) {
             return strcasecmp($this->method, $method) === 0;
         }
 
-        public function is_action(string $action) {
+        public function is_action($action) {
             $regex = '/' . str_replace('\:id', '\d+', preg_quote($action, '/')) . '$/i';
 
             return preg_match($regex, $this->uri) === 1;

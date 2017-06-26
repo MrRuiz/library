@@ -7,13 +7,16 @@
     $request  = new Request($_SERVER);
     $book = new Book();
 
-    if ($request->is_method('get')) {
+    if ($request->is_method("get")) {
         if ($request->is_action('/api/books')) {
             $headers = [
                 'Content-Type' => 'application/json; charset=utf-8'
             ];
             $data = $book->get_all();
-            $result = mysqli_fetch_all($data, MYSQLI_ASSOC);
+            //$result = mysqli_fetch_all($data, MYSQLI_ASSOC);
+            while ($row = $data->fetch_assoc()) {
+                $result[] = $row;
+            }
 
             Response::send(200, $headers, json_encode($result));
         }
@@ -22,7 +25,10 @@
                 'Content-Type' => 'application/json; charset=utf-8'
             ];
             $data = $book->get_by_category($request->get_id());
-            $result = mysqli_fetch_all($data, MYSQLI_ASSOC);
+            //$result = mysqli_fetch_all($data, MYSQLI_ASSOC);
+            while ($row = $data->fetch_assoc()) {
+                $result[] = $row;
+            }
 
             Response::send(200, $headers, json_encode($result));
         }
@@ -31,7 +37,10 @@
                 'Content-Type' => 'application/json; charset=utf-8'
             ];
             $data = $book->get_by_id($request->get_id());
-            $result = mysqli_fetch_all($data, MYSQLI_ASSOC);
+            //$result = mysqli_fetch_all($data, MYSQLI_ASSOC);
+            while ($row = $data->fetch_assoc()) {
+                $result[] = $row;
+            }
 
             Response::send(200, $headers, json_encode($result));
         }
@@ -39,7 +48,7 @@
         Response::send(501, [], 'unknown action: ' . $request->get_uri());
     }
 
-    if ($request->is_method('delete')) {
+    if ($request->is_method("delete")) {
         if ($request->is_action('/api/books/:id')) {
             $book->delete($request->get_id());
 
@@ -49,7 +58,7 @@
         Response::send(501, [], 'unknown action: ' . $request->get_uri());
     }
 
-    if ($request->is_method('put')) {
+    if ($request->is_method("put")) {
         if ($request->is_action('/api/books/:id')) {
             $values = array(
                 "name"    => $_SERVER['HTTP_NAME'],
@@ -58,7 +67,7 @@
             );
             $book->update($values, $request->get_id());
 
-            Response::send(204, [], '');
+            Response::send(204, [], 'UPDATE DONE');
         }
 
         Response::send(501, [], 'unknown action: ' . $request->get_uri());
